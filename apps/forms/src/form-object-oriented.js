@@ -1,3 +1,5 @@
+import { Utilities } from "./utilities.js";
+
 /**
  * The information required for creating a new user
  *
@@ -38,7 +40,7 @@ export class ObjectOrientedHandler {
     event.preventDefault();
 
     /**@type {Partial<SignUpData>} */
-    const formData = Utilities.formDataToObject(new FormData(this.formElement));
+    const formData = Utilities.formDataToObject(this.formElement);
 
     if (!Validator.validate(formData.alias, Validator.flag.REQUIRED)) {
       alert("Invalid input - Alias can not be empty!");
@@ -83,62 +85,5 @@ class Validator {
       default:
         throw new Error("Validator recieved improper flag");
     }
-  }
-}
-
-/**
- * Mock backend
- */
-export class Backend {
-  /**
-   * @param URL} address
-   * @param {string} token
-   */
-  constructor(address, token) {
-    this.address = new URL(address);
-    this.token = token;
-  }
-
-  /**
-   * Mock function for sending a create user request to the backend
-   *
-   * @param {UserSignUpData} signupData
-   */
-  async signUpUser(signupData) {
-    console.log(`
-      POST
-      URL:${this.address}/user
-      TOKEN: ${this.token}
-      DATA: ${JSON.stringify(signupData)}
-    `);
-    await Utilities.sleep(Math.random() * 1000 + 200);
-    console.log("User created successfully");
-  }
-}
-
-class Utilities {
-  /**
-   * Converts a FormData object to a standard Object
-   *
-   * @param {FormData} formData
-   */
-  static formDataToObject(formData) {
-    const obj = {};
-    formData.forEach((value, key) => {
-      obj[key] = value;
-    });
-    return obj;
-  }
-
-  /**
-   * A promise which will resolve after the provided time
-   *
-   * @param {number} milliseconds
-   * @returns {Promise<void>}
-   */
-  static sleep(milliseconds) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, milliseconds);
-    });
   }
 }

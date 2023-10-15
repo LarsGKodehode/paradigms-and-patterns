@@ -1,3 +1,5 @@
+import { Utilities } from "./utilities.js";
+
 /**
  * The information required for creating a new user
  *
@@ -10,10 +12,11 @@
 /**
  * Handles the signup in a procedural way
  *
+ * @param {HTMLFormElement} form
  * @param {SubmitEvent} event
- * @this {HTMLFormElement}
+ * @param {(signUpData: SignUpData) => Promise<void>} callback
  */
-export function proceduralHandler(event) {
+export function proceduralHandler(form, event, callback) {
   // We will be making use of booth the event object
   // and the "this" context, you could do some
   // validation of these types to ensure that
@@ -26,7 +29,7 @@ export function proceduralHandler(event) {
 
   // Convert form data to an object
   /**@type {Partial<SignUpData>} */
-  const formData = formDataToObject(new FormData(this));
+  const formData = Utilities.formDataToObject(form);
 
   // Validate the fields
   if (
@@ -46,33 +49,12 @@ export function proceduralHandler(event) {
   }
 
   // Form has passed validation, do something with it
-  createUser(formData);
-
-  // Clear out the content of the form
-  this.reset();
-}
-
-// Helpers / Utilities / etc...
-
-/**
- * Converts a FormData object to a standard Object
- *
- * @param {FormData} formData
- */
-function formDataToObject(formData) {
-  const obj = {};
-  formData.forEach((value, key) => {
-    obj[key] = value;
-  });
-  return obj;
-}
-
-/**
- * Mock function for sending a create user request to the backend
- *
- * @param {SignUpData} signupData
- */
-async function createUser(signupData) {
-  console.log("Created new user");
-  console.dir(signupData);
+  callback(formData)
+    .then(() => {
+      form.reset();
+    })
+    .catch((error) => {
+      alert("User Creation failed");
+      console.log(error);
+    });
 }
