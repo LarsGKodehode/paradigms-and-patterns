@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="dark:text-white dark:bg-gray-800">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>%VITE_APP_TITLE%</title>
+  </head>
+
+  <body class="flex flex-col min-h-screen">
+    <header class="flex flex-col">
+      <div class="flex items-baseline justify-center">
+        <h1>%VITE_APP_TITLE%</h1>
+        <span class="ml-1 text-xs text-gray-400">v%VITE_APP_VERSION%</span>
+      </div>
+
+      <div class="flex justify-center">
+        <button
+          class="bg-gray-700 hover:brightness-110 shadow-lg active:shadow-inner active:translate-y-[1px] transition-all duration-75 px-1.5 py-1 rounded-lg"
+          id="add-counter"
+        >
+          New Counter
+        </button>
+      </div>
+    </header>
+
+    <main
+      class="flex flex-wrap items-center justify-center gap-4 p-4 grow"
+    ></main>
+
+    <footer>
+      <p class="text-center">By <span class="italic">Lars Gunnar</span></p>
+    </footer>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
